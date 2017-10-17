@@ -7,13 +7,37 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
-namespace xrm_aspnet_2017
-{
-    public class Startup
-    {
-        public Startup(IHostingEnvironment env)
-        {
+namespace xrm_aspnet_2017 {
+    public class MyMiddleware {
+        private readonly RequestDelegate _next;
+
+        public MyMiddleware(RequestDelegate next) {
+
+            _next = next;
+        }
+
+        public async Task Invoke(HttpContext context) {
+            
+           // await context.Response.WriteAsync("\nClass-MiddleWare starts logging...");
+
+            var sw = new Stopwatch();
+            sw.Start();
+
+            await _next.Invoke(context);
+            
+            sw.Stop();
+            await context.Response.WriteAsync(String.Format("<br>Elapsed Time - {0} ms. (Class-MiddleWare)"
+                    , sw.ElapsedMilliseconds));
+
+
+        }
+    }
+
+    public class Startup {
+        public Startup(IHostingEnvironment env) {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -25,32 +49,49 @@ namespace xrm_aspnet_2017
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) {
             // Add framework services.
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
+
+            app.UseMiddleware<MyMiddleware>();
+
+            app.Use(async (context, next) => {
+
+                //await context.Response.WriteAsync("\nLambda-MiddleWare starts logging...");
+
+                var sw = new Stopwatch();
+                sw.Start();                
+
+                await next.Invoke();
+
+                sw.Stop();
+                await context.Response.WriteAsync(String.Format("<br>Elapsed Time - {0} ms. (Lambda-MiddleWare)"
+                    , sw.ElapsedMilliseconds));
+            });
+
+
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
-            else
-            {
+            else {
                 app.UseExceptionHandler("/Home/Error");
             }
 
+
+
+
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
-            {
+            app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
