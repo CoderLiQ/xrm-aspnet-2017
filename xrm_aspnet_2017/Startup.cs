@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
+using xrm_aspnet_2017.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace xrm_aspnet_2017 {
     public class MyMiddleware {
         private readonly RequestDelegate _next;
@@ -54,6 +57,9 @@ namespace xrm_aspnet_2017 {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             // Add framework services.
+            services.AddDbContext<UniversityContext>(options =>
+        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddMvc();
         }
 
