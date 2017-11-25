@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 
 using xrm_aspnet_2017.Data;
 using Microsoft.EntityFrameworkCore;
+using xrm_aspnet_2017.Services;
 
 namespace xrm_aspnet_2017 {
     public class MyMiddleware {
@@ -23,14 +24,14 @@ namespace xrm_aspnet_2017 {
         }
 
         public async Task Invoke(HttpContext context) {
-            
-           // await context.Response.WriteAsync("\nClass-MiddleWare starts logging...");
+
+            // await context.Response.WriteAsync("\nClass-MiddleWare starts logging...");
 
             var sw = new Stopwatch();
             sw.Start();
 
             await _next.Invoke(context);
-            
+
             sw.Stop();
             await context.Response.WriteAsync(String.Format("<br>Elapsed Time - {0} ms. (Class-MiddleWare)"
                     , sw.ElapsedMilliseconds));
@@ -60,28 +61,31 @@ namespace xrm_aspnet_2017 {
             services.AddDbContext<UniversityContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<IStudentManager>(manager => new StudentManager());
+
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
 
-            app.UseMiddleware<MyMiddleware>();
+            #region logging loading time using middlewares (lab2)
+            //app.UseMiddleware<MyMiddleware>();
 
-            app.Use(async (context, next) => {
+            //app.Use(async (context, next) => {
 
-                //await context.Response.WriteAsync("\nLambda-MiddleWare starts logging...");
+            //await context.Response.WriteAsync("\nLambda-MiddleWare starts logging...");
 
-                var sw = new Stopwatch();
-                sw.Start();                
+            //var sw = new Stopwatch();
+            //sw.Start();                
 
-                await next.Invoke();
+            //await next.Invoke();
 
-                sw.Stop();
-                await context.Response.WriteAsync(String.Format("<br>Elapsed Time - {0} ms. (Lambda-MiddleWare)"
-                    , sw.ElapsedMilliseconds));
-            });
-
+            //sw.Stop();
+            //await context.Response.WriteAsync(String.Format("<br>Elapsed Time - {0} ms. (Lambda-MiddleWare)"
+            //    , sw.ElapsedMilliseconds));
+            //});
+            #endregion
 
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));

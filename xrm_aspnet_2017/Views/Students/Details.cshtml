@@ -1,4 +1,10 @@
-﻿@model xrm_aspnet_2017.Models.Student
+﻿@using xrm_aspnet_2017.Services
+@model xrm_aspnet_2017.Models.Student
+    
+@*LAB6 - с ключевым словом inject на форме*@
+@inject IStudentManager StudentManager;    
+
+@StudentManager.GetStudentInfo(Model);
 
 @{
     ViewData["Title"] = "Details";

@@ -5,27 +5,54 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using xrm_aspnet_2017.Data;
 using xrm_aspnet_2017.Models;
+using xrm_aspnet_2017.Services;
 
 namespace xrm_aspnet_2017.Controllers {
     public class StudentsController : Controller {
+
         private readonly UniversityContext _context;
 
-        public StudentsController(UniversityContext context) {
+        public readonly IStudentManager _studentManager;
+
+        public StudentsController(UniversityContext context, IStudentManager studentManager) {
+
             _context = context;
+            //LAB6 - как параметр контроллера
+            _studentManager = studentManager;
         }
 
         // GET: Students
         public async Task<IActionResult> Index() {
+
+            //LAB6 - из httpContext
+            var studentManager = HttpContext
+                .RequestServices
+                .GetService<IStudentManager>();
+
+            var s1 = studentManager.GetStudentInfo(new Student { FirstMidName = "Чезаре",
+                LastName = "Борджиа", EnrollmentDate = DateTime.Parse("2017-09-01") });
+
+            //LAB6 - из ActivatorUtilities
+            var s2 = ActivatorUtilities
+                .CreateInstance<MyClass>(HttpContext.RequestServices,
+                    new Student { FirstMidName = "Чезаре",
+                LastName = "Борджиа", EnrollmentDate = DateTime.Parse("2017-09-01") });
+
             return View(await _context.Students.ToListAsync());
+
         }
 
         // GET: Students/Details/5
-        public async Task<IActionResult> Details(int? id) {
+        public async Task<IActionResult> Details(
+            [FromServices]IStudentManager /*LAB6 - как параметр экшена контроллера*/ studentManager, 
+            int? id) {
             if (id == null) {
                 return NotFound();
             }
+            
 
             var student = await _context.Students
 
@@ -37,6 +64,10 @@ namespace xrm_aspnet_2017.Controllers {
             if (student == null) {
                 return NotFound();
             }
+
+            
+//            var sInfo = _studentManager.GetStudentInfo(student);
+            var sInfo = studentManager.GetStudentInfo(student);
 
             return View(student);
         }
@@ -186,6 +217,12 @@ namespace xrm_aspnet_2017.Controllers {
 
         private bool StudentExists(int id) {
             return _context.Students.Any(e => e.ID == id);
+        }
+
+        public class MyClass {
+            public MyClass(Student s, IStudentManager sm) {
+
+            }
         }
     }
 }
