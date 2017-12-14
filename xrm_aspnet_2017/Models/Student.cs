@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace xrm_aspnet_2017.Models {
     public class Student {
         public int ID { get; set; }
+
+        [Required]
+        [Display(Name = "Фамилия")]
         public string LastName { get; set; }
         public string FirstMidName { get; set; }
         public DateTime EnrollmentDate { get; set; }
