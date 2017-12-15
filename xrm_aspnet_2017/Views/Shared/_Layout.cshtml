@@ -1,4 +1,6 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+﻿@using Microsoft.Extensions.Configuration
+@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@inject IConfiguration Configuration
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +44,15 @@
         @RenderBody()
         <hr />
         <footer>
+            <div class="text-center">
             <p>&copy; 2017 - xrm_aspnet_2017</p>
+                <p>
+                    Personal information, retrieved from config file:</p>
+                <p>
+                    @Configuration["PersonalInfo:FirstName"] @Configuration["PersonalInfo:LastName"],
+                    @Configuration["PersonalInfo:Email"]
+                </p>
+            </div>
         </footer>
     </div>
 

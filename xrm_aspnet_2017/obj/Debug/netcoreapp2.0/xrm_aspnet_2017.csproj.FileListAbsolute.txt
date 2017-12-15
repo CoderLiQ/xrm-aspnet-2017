@@ -9,3 +9,14 @@ C:\Users\Michael\YandexDisk\Coding\C#\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\
 C:\Users\Michael\YandexDisk\Coding\C#\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.AssemblyInfo.cs
 C:\Users\Michael\YandexDisk\Coding\C#\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.dll
 C:\Users\Michael\YandexDisk\Coding\C#\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.pdb
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\bin\Debug\netcoreapp2.0\xrm_aspnet_2017.deps.json
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\bin\Debug\netcoreapp2.0\xrm_aspnet_2017.runtimeconfig.json
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\bin\Debug\netcoreapp2.0\xrm_aspnet_2017.runtimeconfig.dev.json
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\bin\Debug\netcoreapp2.0\xrm_aspnet_2017.dll
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\bin\Debug\netcoreapp2.0\xrm_aspnet_2017.pdb
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.csprojResolveAssemblyReference.cache
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.csproj.CoreCompileInputs.cache
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.AssemblyInfoInputs.cache
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.AssemblyInfo.cs
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.dll
+C:\Users\Vodyanyy\Desktop\xrm-aspnet-2017\xrm_aspnet_2017\obj\Debug\netcoreapp2.0\xrm_aspnet_2017.pdb
