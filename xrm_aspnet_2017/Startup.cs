@@ -41,17 +41,18 @@ namespace xrm_aspnet_2017 {
     }
 
     public class Startup {
-        //public Startup(IHostingEnvironment env) {
-        //    var builder = new ConfigurationBuilder()
-        //        .SetBasePath(env.ContentRootPath)
-        //        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        //        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-        //        .AddEnvironmentVariables();
-        //    Configuration = builder.Build();
-        //}
-        public Startup(IConfiguration configuration) {
-            Configuration = configuration;
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("conf.json", true, true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
+        
         public IConfiguration Configuration { get; }
         //public IConfigurationRoot Configuration { get; }
 
@@ -64,6 +65,8 @@ namespace xrm_aspnet_2017 {
             services.AddScoped<IStudentManager>(manager => new StudentManager());
 
             services.AddMvc();
+
+            services.AddSingleton<IConfiguration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,9 +101,6 @@ namespace xrm_aspnet_2017 {
             else {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-
-
 
             app.UseStaticFiles();
 
